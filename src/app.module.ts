@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { config } from './config';
+// import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+// import { config } from './config';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { ArtistModule } from './modules/artist/artist.module';
@@ -11,10 +11,17 @@ import { MusicModule } from './modules/music/music.module';
 import { AlbumModule } from './modules/album/album.module';
 import { MusicianAlbumModule } from './modules/musician-album/musician-album.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { ConfigModule } from '@nestjs/config';
+import { DatabaseModule } from './modules/database/database.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(config.db as TypeOrmModuleOptions),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    // TypeOrmModule.forRoot(config.db as TypeOrmModuleOptions),
+    DatabaseModule,
     AuthModule,
     ProfileModule,
     ArtistModule,
@@ -25,6 +32,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     AlbumModule,
     MusicianAlbumModule,
     NotificationsModule,
+    DatabaseModule,
   ],
   controllers: [],
   providers: [],
